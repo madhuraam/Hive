@@ -1,0 +1,30 @@
+  ---Hive external table - Drop table and data
+
+CREATE EXTERNAL TABLE IF NOT EXISTS Names_text(
+EmployeeID INT,FirstName STRING, Title STRING,
+State STRING, Laptop STRING)
+COMMENT 'Employee Names'
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','
+STORED AS TEXTFILE
+LOCATION '/user/username/names';
+
+--Copy the file from local windows to Linux(upload)
+Names.csv
+10,Andrew,Manager,DE,PC
+11,Arun,Manager,NJ,PC
+12,Harish,Sales,NJ,MAC
+13,Robert,Manager,PA,MAC
+14,Laura,Engineer,PA,MAC
+
+--move the file from local to Hadoop
+hadoop fs -put names.csv /user/jjraam1018/external/names
+
+---view the table
+Select * from the Names_text
+
+---To drop external table and data
+Alter table Names_text Set TBLPROPERTIES('EXTERNAL'='False');
+Drop Table Names_text
+
+
